@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DocenteResource;
 use App\Models\Docente;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,8 @@ class DocenteController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Docentes/Index');
+        $docente = DocenteResource::collection(Docente::all());
+        return Inertia::render('Docentes/Index', compact('docente'));
     }
 
     /**
@@ -79,7 +81,7 @@ class DocenteController extends Controller
      */
     public function edit(Docente $docente)
     {
-        //
+        return 'xd';
     }
 
     /**

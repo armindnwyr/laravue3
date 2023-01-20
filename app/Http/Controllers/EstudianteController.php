@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\EstudianteResource;
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,8 @@ class EstudianteController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Estudiantes/Index');
+        $estudiante = EstudianteResource::collection(Estudiante::all());
+        return Inertia::render('Estudiantes/Index', compact('estudiante'));
     }
 
     /**
@@ -25,6 +27,7 @@ class EstudianteController extends Controller
      */
     public function create()
     {
+        
         return Inertia::render('Estudiantes/Create');
     }
 
