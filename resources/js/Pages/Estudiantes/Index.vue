@@ -25,9 +25,9 @@
           >
         </div>
 
-                <!-- Table Docente -->
+        <!-- Table Docente -->
 
-                <div class="relative overflow-x-auto rounded">
+        <div class="relative overflow-x-auto rounded">
           <table
             class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
           >
@@ -51,7 +51,9 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="estudiante in estudiante.data" :key="estudiante.id"
+              <tr
+                v-for="estudiante in estudiante.data"
+                :key="estudiante.id"
                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
                 <th
@@ -74,7 +76,19 @@
                 <td class="px-6 py-4">{{ estudiante.codigo }}</td>
                 <td class="px-6 py-4">{{ estudiante.correo }}</td>
                 <td class="px-6 py-4">
-                  Editar-Eliminar
+                  <Link
+                    :href="route('estudiantes.edit', estudiante.id)"
+                    class="font-medium text-blue-500 hover:text-blue-700 mr-2"
+                    >Editar</Link
+                  >
+                  <Link
+                    :href="route('estudiantes.destroy', estudiante.id)"
+                    method="delete"
+                    as="button"
+                    type="button"
+                    class="font-medium text-red-500 hover:text-red-700 mr-2"
+                    >Eliminar</Link
+                  >
                 </td>
               </tr>
             </tbody>
@@ -87,7 +101,7 @@
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 defineProps({
   estudiante: Object,
 });

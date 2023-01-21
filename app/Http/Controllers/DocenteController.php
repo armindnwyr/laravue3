@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DocenteResource;
 use App\Models\Docente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DocenteController extends Controller
@@ -47,6 +48,7 @@ class DocenteController extends Controller
             'correo' => 'required',
         ]);
 
+        
         //return $request->all();
         $docente = new docente();
 
@@ -59,7 +61,7 @@ class DocenteController extends Controller
 
        $docente->save();
 
-       return redirect()->route('docentes.index');
+       return Redirect::route('docentes.index');
     }
 
     /**
@@ -81,7 +83,7 @@ class DocenteController extends Controller
      */
     public function edit(Docente $docente)
     {
-        return 'xd';
+        return Inertia::render('Docentes/Edit', compact('docente'));
     }
 
     /**
@@ -93,7 +95,25 @@ class DocenteController extends Controller
      */
     public function update(Request $request, Docente $docente)
     {
-        //
+        $request->validate([
+            'nombre'=> 'required',
+            'paterno'=> 'required',
+            'materno'=> 'required',
+            'sexo' => 'required',
+            'celular' => 'numeric',
+            'correo' => 'required',
+        ]);
+
+        $docente->nombre = $request->nombre;
+        $docente->paterno = $request->paterno;
+        $docente->materno = $request->materno;
+        $docente->sexo = $request->sexo;
+        $docente->celular = $request->celular;
+        $docente->correo = $request->correo;
+
+       $docente->save();
+
+       return Redirect::route('docentes.index');
     }
 
     /**
@@ -104,6 +124,9 @@ class DocenteController extends Controller
      */
     public function destroy(Docente $docente)
     {
-        //
+        $docente->delete();
+
+        return Redirect::route('docentes.index');
+
     }
 }

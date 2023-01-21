@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\EstudianteResource;
 use App\Models\Estudiante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class EstudianteController extends Controller
@@ -39,7 +40,27 @@ class EstudianteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|max:58',
+            'paterno' => 'required|max:58',
+            'materno' => 'required|max:58',
+            'sexo' => 'required|',
+            'codigo' => 'numeric|digits:6',
+            'correo' => 'required|email',
+        ]);
+
+        $estudiante = new Estudiante();
+
+        $estudiante->nombre = $request->nombre;
+        $estudiante->paterno = $request->paterno;
+        $estudiante->materno = $request->materno;
+        $estudiante->sexo = $request->sexo;
+        $estudiante->codigo = $request->codigo;
+        $estudiante->correo = $request->correo;
+
+        $estudiante->save();
+
+        return Redirect::route('estudiantes.index');
     }
 
     /**
@@ -61,7 +82,7 @@ class EstudianteController extends Controller
      */
     public function edit(Estudiante $estudiante)
     {
-        //
+        return Inertia::render('Estudiantes/Edit', compact('estudiante'));
     }
 
     /**
@@ -73,7 +94,25 @@ class EstudianteController extends Controller
      */
     public function update(Request $request, Estudiante $estudiante)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|max:58',
+            'paterno' => 'required|max:58',
+            'materno' => 'required|max:58',
+            'sexo' => 'required|',
+            'codigo' => 'numeric|digits:6',
+            'correo' => 'required|email',
+        ]);
+
+        $estudiante->nombre = $request->nombre;
+        $estudiante->paterno = $request->paterno;
+        $estudiante->materno = $request->materno;
+        $estudiante->sexo = $request->sexo;
+        $estudiante->codigo = $request->codigo;
+        $estudiante->correo = $request->correo;
+
+        $estudiante->save();
+
+        return Redirect::route('estudiantes.index');
     }
 
     /**
@@ -84,6 +123,8 @@ class EstudianteController extends Controller
      */
     public function destroy(Estudiante $estudiante)
     {
-        //
+        $estudiante->delete();
+
+        return Redirect::route('estudiantes.index');
     }
 }

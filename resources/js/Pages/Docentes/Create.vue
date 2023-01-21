@@ -19,7 +19,6 @@
               type="text"
               class="mt-1 block w-full"
               v-model="form.nombre"
-              required
               autofocus
             />
 
@@ -33,7 +32,6 @@
               type="text"
               class="mt-1 block w-full"
               v-model="form.paterno"
-              required
               autofocus
             />
 
@@ -48,7 +46,6 @@
               type="text"
               class="mt-1 block w-full"
               v-model="form.materno"
-              required
               autofocus
             />
 
@@ -90,7 +87,6 @@
               type="text"
               class="mt-1 block w-full"
               v-model="form.celular"
-              required
               autofocus
             />
 
@@ -105,7 +101,6 @@
               type="text"
               class="mt-1 block w-full"
               v-model="form.correo"
-              required
               autofocus
             />
 
