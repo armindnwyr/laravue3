@@ -19,7 +19,7 @@ return new class extends Migration
             $table->longText('descripcion');
             $table->enum('categoria',['Practicas I', 'Practicas II']);
             $table->string('centro');
-            $table->string('pdf')->nullable();
+            $table->string('pdf');
             $table->date('fecha');
 
 

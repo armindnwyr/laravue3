@@ -23,7 +23,7 @@
                 autofocus
               />
   
-              <InputError class="mt-2" :message="form.errors.nombre" />
+              <InputError class="mt-2" :message="$page.props.errors.nombre" />
             </div>
             <div>
               <InputLabel for="paterno" value="Paterno" />
@@ -37,7 +37,7 @@
                 autofocus
               />
   
-              <InputError class="mt-2" :message="form.errors.paterno" />
+              <InputError class="mt-2" :message="$page.props.errors.paterno" />
             </div>
   
             <div>
@@ -52,7 +52,7 @@
                 autofocus
               />
   
-              <InputError class="mt-2" :message="form.errors.materno" />
+              <InputError class="mt-2" :message="$page.props.errors.materno" />
             </div>
   
             <div>
@@ -79,7 +79,7 @@
                 <option>Femenino</option>
                 <option>No Especificado</option>
               </select>
-              <InputError class="mt-2" :message="form.errors.sexo" />
+              <InputError class="mt-2" :message="$page.props.errors.sexo" />
             </div>
   
             <div>
@@ -94,7 +94,7 @@
                 autofocus
               />
   
-              <InputError class="mt-2" :message="form.errors.celular" />
+              <InputError class="mt-2" :message="$page.props.errors.celular" />
             </div>
   
             <div>
@@ -109,7 +109,7 @@
                 autofocus
               />
   
-              <InputError class="mt-2" :message="form.errors.correo" />
+              <InputError class="mt-2" :message="$page.props.errors.correo" />
             </div>
   
             <div class="flex items-center justify-end mt-4">

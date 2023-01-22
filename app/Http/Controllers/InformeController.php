@@ -8,6 +8,7 @@ use App\Models\Estudiante;
 use App\Models\Informe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class InformeController extends Controller
@@ -47,28 +48,26 @@ class InformeController extends Controller
             'nombre'=>'required',
             'descripcion'=>'required',
             'categoria'=>'required',
-            // 'pdf'=>'required',
+            'pdf'=>'required',
             'fecha'=>'required',
             'centro'=>'required',
             'docente'=>'required',
             'estudiante'=>'required',
         ]);
 
-        // $pdf = $request->file('pdf')->store('public/documento');
-
-        $informe = new Informe();
-
-        $informe->nombre = $request->nombre;
-        $informe->descripcion = $request->descripcion;
-
-        $informe->centro = $request->centro;
-        // $informe->pdf = $url = Storage::url($pdf);
-        $informe->docente_id = $request->docente;
-        $informe->estudiante_id = $request->estudiante;
-        $informe->fecha = $request->fecha;
-
-        $informe->save();
-
+        if ($request->hasFile('pdf')) {
+            $pdf = $request->file('pdf')->store('public/documento');
+            $url = Storage::url($pdf);
+            $informe = new Informe();
+            $informe->nombre = $request->nombre;
+            $informe->descripcion = $request->descripcion;
+            $informe->centro = $request->centro;
+            $informe->pdf = $url;
+            $informe->docente_id = $request->docente;
+            $informe->estudiante_id = $request->estudiante;
+            $informe->fecha = $request->fecha;
+            $informe->save();
+        }
         return Redirect::route('informes.index');
     }
 
@@ -91,7 +90,9 @@ class InformeController extends Controller
      */
     public function edit(Informe $informe)
     {
-        //
+        $docentes = Docente::all();
+        $estudiantes = Estudiante::all();
+        return Inertia::render('Informes/Edit', compact('informe','docentes','estudiantes'));
     }
 
     /**
@@ -103,7 +104,34 @@ class InformeController extends Controller
      */
     public function update(Request $request, Informe $informe)
     {
-        //
+        $request->validate([
+            'nombre'=>'required',
+            'descripcion'=>'required',
+            'categoria'=>'required',
+            'pdf'=>'required',
+            'fecha'=>'required',
+            'centro'=>'required',
+            'docente'=>'required',
+            'estudiante'=>'required',
+        ]);
+
+        if ($request->hasFile('pdf')) {
+            $url = str_replace('storage','public', $informe->pdf);
+            $pdf = $request->file('pdf')->store('public/documento');
+            $url2 = Storage::url($pdf);
+        $informe->nombre = $request->nombre;
+        $informe->descripcion = $request->descripcion;
+        $informe->centro = $request->centro;
+        $informe->pdf = $url2;
+        $informe->docente_id = $request->docente;
+        $informe->estudiante_id = $request->estudiante;
+        $informe->fecha = $request->fecha;
+        Storage::delete($url);
+        }
+        $informe->save();
+
+
+        return Redirect::route('informes.index');
     }
 
     /**
@@ -114,7 +142,12 @@ class InformeController extends Controller
      */
     public function destroy(Informe $informe)
     {
+
+        $url = str_replace('storage','public', $informe->pdf);
+        Storage::delete($url);
+
         $informe->delete();
+        // dd($informe);
 
         return Redirect::route('informes.index');
     }

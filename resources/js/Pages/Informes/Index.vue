@@ -11,6 +11,19 @@
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <!-- Buton Create -->
+
+        <a
+          v-on:click="doSomething"
+          class="
+            px-4
+            -py-4
+            bg-indigo-500
+            hover:bg-indigo-700
+            text-white
+            rounded-md
+          "
+          >Click</a
+        >
         <div class="flex justify-end m-2 p-2">
           <Link
             :href="route('informes.create')"
@@ -47,6 +60,7 @@
                 <th scope="col" class="px-6 py-3">Estudiante</th>
                 <th scope="col" class="px-6 py-3">Docente</th>
                 <th scope="col" class="px-6 py-3">Fecha</th>
+                <th scope="col" class="px-6 py-3">PDF</th>
                 <th scope="col" class="px-6 py-3">Acciones</th>
               </tr>
             </thead>
@@ -72,9 +86,21 @@
                 <td class="px-6 py-4">{{ informe.nombre }}</td>
                 <td class="px-6 py-4">{{ informe.categoria }}</td>
                 <td class="px-6 py-4">{{ informe.centro }}</td>
-                <td class="px-6 py-4">{{ informe.docente.nombre }} {{ informe.docente.paterno }} {{ informe.docente.materno }}</td>
-                <td class="px-6 py-4">{{ informe.estudiante.nombre }} {{ informe.estudiante.paterno }} {{ informe.estudiante.materno }}</td>
+                <td class="px-6 py-4">
+                  {{ informe.docente.nombre }} {{ informe.docente.paterno }}
+                  {{ informe.docente.materno }}
+                </td>
+                <td class="px-6 py-4">
+                  {{ informe.estudiante.nombre }}
+                  {{ informe.estudiante.paterno }}
+                  {{ informe.estudiante.materno }}
+                </td>
                 <td class="px-6 py-4">{{ informe.fecha }}</td>
+                <td class="px-6 py-4">
+                  <a :href="informe.pdf" class="m-4 text-white" target="_blank"
+                    >ver</a
+                  >
+                </td>
                 <td class="px-6 py-4">
                   <Link
                     :href="route('informes.edit', informe.id)"
@@ -103,8 +129,9 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, Link } from "@inertiajs/vue3";
-
+import Swal from "sweetalert2";
 defineProps({
   informe: Object,
 });
+
 </script>

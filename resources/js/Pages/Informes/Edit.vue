@@ -22,7 +22,7 @@
               autofocus
             />
 
-            <InputError class="mt-2" :message="form.errors.nombre" />
+            <InputError class="mt-2" :message="$page.props.errors.nombre" />
           </div>
           <div>
             <InputLabel for="descripcion" value="Resumen" />
@@ -42,7 +42,7 @@
                 border border-gray-300
                 focus:ring-blue-500 focus:border-blue-500
                 white:bg-gray-700
-                dark:border-gray-300
+                dark:border-gray-600
                 dark:placeholder-gray-400
                 dark:text-black
                 dark:focus:ring-blue-500
@@ -51,7 +51,10 @@
               placeholder="Write here..."
             ></textarea>
 
-            <InputError class="mt-2" :message="form.errors.descripcion" />
+            <InputError
+              class="mt-2"
+              :message="$page.props.errors.descripcion"
+            />
           </div>
 
           <div>
@@ -77,7 +80,7 @@
               <option>Practicas I</option>
               <option>Practicas II</option>
             </select>
-            <InputError class="mt-2" :message="form.errors.categoria" />
+            <InputError class="mt-2" :message="$page.props.errors.categoria" />
           </div>
 
           <div>
@@ -91,7 +94,7 @@
               autofocus
             />
 
-            <InputError class="mt-2" :message="form.errors.centro" />
+            <InputError class="mt-2" :message="$page.props.errors.centro" />
           </div>
 
           <div>
@@ -123,7 +126,7 @@
                 {{ docente.nombre }} {{ docente.paterno }} {{ docente.materno }}
               </option>
             </select>
-            <InputError class="mt-2" :message="form.errors.docente" />
+            <InputError class="mt-2" :message="$page.props.errors.docente" />
           </div>
 
           <div>
@@ -156,20 +159,41 @@
                 {{ estudiante.materno }}
               </option>
             </select>
-            <InputError class="mt-2" :message="form.errors.estudiante" />
+            <InputError class="mt-2" :message="$page.props.errors.estudiante" />
           </div>
 
           <div>
+            <div class="mt-2 flex justify-end">
+              <span
+                class="
+                  bg-blue-100
+                  text-blue-800 text-xs
+                  font-medium
+                  mr-2
+                  px-2.5
+                  py-0.5
+                  rounded
+                  dark:bg-blue-900 dark:text-blue-300
+                "
+                ><a
+                  :href="informe.pdf"
+                  class="m-4 text-white"
+                  target="_blank"
+                  >ver</a
+                ></span
+              >
+            </div>
+            <!-- <a href="{{ informe.pdf }}" class="btn btn-primary">{{ informe.pdf }}</a> -->
             <InputLabel for="pdf" value="Archivo de PDF" />
 
             <TextInput
               id="pdf"
               type="file"
-              class="mb-2 block w-full"
+              class="mb-2 block w-full "
               @input="form.pdf = $event.target.files[0]"
             />
 
-            <InputError class="mt-2" :message="form.errors.pdf" />
+            <InputError class="mt-2" :message="$page.props.errors.pdf" />
           </div>
 
           <div>
@@ -183,7 +207,7 @@
               autofocus
             />
 
-            <InputError class="mt-2" :message="form.errors.fecha" />
+            <InputError class="mt-2" :message="$page.props.errors.fecha" />
           </div>
 
           <div class="flex items-center justify-end mt-4">
@@ -192,7 +216,7 @@
               :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing"
             >
-              Store Informe
+              Update Informe
             </PrimaryButton>
           </div>
         </form>
@@ -200,8 +224,8 @@
     </div>
   </AuthenticatedLayout>
 </template>
-  
-  <script setup>
+    
+<script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, useForm, Link } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
@@ -209,25 +233,37 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import { router } from "@inertiajs/vue3";
 
-defineProps({
+const props = defineProps({
+  informe: Object,
   docentes: Array,
   estudiantes: Array,
 });
 
 const form = useForm({
-  nombre: "",
-  descripcion: "",
-  categoria: "",
-  centro: "",
-  pdf: null,
-  fecha: "",
-  docente: "",
-  estudiante: "",
+  nombre: props.informe?.nombre,
+  descripcion: props.informe?.descripcion,
+  categoria: props.informe?.categoria,
+  centro: props.informe?.centro,
+  pdf: props.informe?.pdf,
+  fecha: props.informe?.fecha,
+  docente: props.informe?.docente_id,
+  estudiante: props.informe?.estudiante_id,
 });
 
 const submit = () => {
-  form.post(route("informes.store"));
+  router.post(`/informes/${props.informe.id}`, {
+    _method: "put",
+    nombre: form.nombre,
+    descripcion: form.descripcion,
+    categoria: form.categoria,
+    centro: form.centro,
+    pdf: form.pdf,
+    fecha: form.fecha,
+    docente: form.docente,
+    estudiante: form.estudiante,
+  });
 };
 </script>
-  
+    
