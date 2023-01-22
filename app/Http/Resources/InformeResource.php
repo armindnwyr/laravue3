@@ -22,6 +22,7 @@ class InformeResource extends JsonResource
             'centro' => $this->centro,
             'pdf' => $this->pdf,
             'fecha' => $this->fecha,
+            'image' => $this->image,
             'docente' => new DocenteResource($this->whenLoaded('docente')),
             'estudiante' => new EstudianteResource($this->whenLoaded('estudiante')),
         ];

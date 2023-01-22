@@ -197,6 +197,19 @@
           </div>
 
           <div>
+            <InputLabel for="image" value="Archivo de Portada" />
+
+            <TextInput
+              id="image"
+              type="file"
+              class="mb-2 block w-full"
+              @input="form.image = $event.target.files[0]"
+            />
+
+            <InputError class="mt-2" :message="$page.props.errors.image" />
+          </div>
+
+          <div>
             <InputLabel for="fecha" value="Fecha de presentacion" />
 
             <TextInput
@@ -247,6 +260,7 @@ const form = useForm({
   categoria: props.informe?.categoria,
   centro: props.informe?.centro,
   pdf: props.informe?.pdf,
+  image: props.informe?.image,
   fecha: props.informe?.fecha,
   docente: props.informe?.docente_id,
   estudiante: props.informe?.estudiante_id,
@@ -260,6 +274,7 @@ const submit = () => {
     categoria: form.categoria,
     centro: form.centro,
     pdf: form.pdf,
+    image: form.image,
     fecha: form.fecha,
     docente: form.docente,
     estudiante: form.estudiante,

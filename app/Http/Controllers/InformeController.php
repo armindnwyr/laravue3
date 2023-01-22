@@ -49,20 +49,24 @@ class InformeController extends Controller
             'descripcion'=>'required',
             'categoria'=>'required',
             'pdf'=>'required',
+            'image'=>'required',
             'fecha'=>'required',
             'centro'=>'required',
             'docente'=>'required',
             'estudiante'=>'required',
         ]);
 
-        if ($request->hasFile('pdf')) {
-            $pdf = $request->file('pdf')->store('public/documento');
+        if ($request->hasFile('pdf','image')) {
+            $pdf = $request->file('pdf','image')->store('public/documento');
+            $img = $request->file('image')->store('public/imagen');
             $url = Storage::url($pdf);
+            $image = Storage::url($img);
             $informe = new Informe();
             $informe->nombre = $request->nombre;
             $informe->descripcion = $request->descripcion;
             $informe->centro = $request->centro;
             $informe->pdf = $url;
+            $informe->image = $image;
             $informe->docente_id = $request->docente;
             $informe->estudiante_id = $request->estudiante;
             $informe->fecha = $request->fecha;
@@ -119,15 +123,23 @@ class InformeController extends Controller
             $url = str_replace('storage','public', $informe->pdf);
             $pdf = $request->file('pdf')->store('public/documento');
             $url2 = Storage::url($pdf);
+            Storage::delete($url);
+            $informe->pdf = $url2;
+
+        }else if($request->hasFile('image')){
+            $img = str_replace('storage','public', $informe->image);
+            $img2 = $request->file('image')->store('public/imagen');
+            $img3 = Storage::url($img2);
+            Storage::delete($img);
+            $informe->image = $img3;
+        }
+
         $informe->nombre = $request->nombre;
         $informe->descripcion = $request->descripcion;
         $informe->centro = $request->centro;
-        $informe->pdf = $url2;
         $informe->docente_id = $request->docente;
         $informe->estudiante_id = $request->estudiante;
         $informe->fecha = $request->fecha;
-        Storage::delete($url);
-        }
         $informe->save();
 
 
@@ -143,11 +155,15 @@ class InformeController extends Controller
     public function destroy(Informe $informe)
     {
 
+        // Delete pdf
         $url = str_replace('storage','public', $informe->pdf);
         Storage::delete($url);
 
+        // Delete image
+        $img = str_replace('storage','public', $informe->image);
+        Storage::delete($img);
+
         $informe->delete();
-        // dd($informe);
 
         return Redirect::route('informes.index');
     }

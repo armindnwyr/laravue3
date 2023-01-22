@@ -61,6 +61,7 @@
                 <th scope="col" class="px-6 py-3">Docente</th>
                 <th scope="col" class="px-6 py-3">Fecha</th>
                 <th scope="col" class="px-6 py-3">PDF</th>
+                <th scope="col" class="px-6 py-3">Imagen</th>
                 <th scope="col" class="px-6 py-3">Acciones</th>
               </tr>
             </thead>
@@ -100,6 +101,9 @@
                   <a :href="informe.pdf" class="m-4 text-white" target="_blank"
                     >ver</a
                   >
+                </td>
+                <td class="px-6 py-4">
+                  <img :src="informe.image" class="w-12 h-12 rounded-full" />
                 </td>
                 <td class="px-6 py-4">
                   <Link

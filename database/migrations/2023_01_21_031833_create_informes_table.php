@@ -21,8 +21,7 @@ return new class extends Migration
             $table->string('centro');
             $table->string('pdf');
             $table->date('fecha');
-
-
+            $table->string('image');
             //Llave Foranea
             $table->foreignId('docente_id')->nullable()->constrained('docentes')->onDelete('cascade');
             // $table->foreignId('categoria_id')->constrained('categorias')->onDelete('cascade');
