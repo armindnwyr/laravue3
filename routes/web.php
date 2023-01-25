@@ -3,6 +3,7 @@
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\InformeController;
+use App\Http\Controllers\LibroController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -35,8 +36,8 @@ Route::middleware(['auth','verified'])->group(function(){
 
     Route::resource('/docentes', DocenteController::class);
     Route::resource('/estudiantes', EstudianteController::class);
-
     Route::resource('/informes', InformeController::class);
+    Route::resource('/libros', LibroController::class);
 });
 
 Route::middleware('auth')->group(function () {
